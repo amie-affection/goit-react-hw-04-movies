@@ -20,7 +20,7 @@ const Header = () => {
               style={{ padding: "10px", display: "block", color: "black" }}
               activeStyle={{ color: "red" }}
             >
-              <HomePage />
+              <h2>Home</h2>
             </NavLink>
           </li>
           <li>
@@ -29,7 +29,7 @@ const Header = () => {
               style={{ padding: "10px", display: "block", color: "black" }}
               activeStyle={{ color: "red" }}
             >
-              <MoviePage />
+              <h2>Movie</h2>
             </NavLink>
           </li>
         </ul>
