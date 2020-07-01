@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Header from "./header/Header";
-// import MoviePage from './moviePage/MoviePage';
+import HomePage from "./homePage/HomePage";
+import MoviePage from './moviePage/MoviePage';
 
 class App extends Component {
   render() {
@@ -9,8 +10,9 @@ class App extends Component {
       <BrowserRouter>
         <Header />
         <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/movies" component={MoviePage} />
           {/* <Route path="/books/:title" component={OneBookPage} /> */}
-          {/* <Route path="/movie" component={MoviePage} /> */}
         </Switch>
       </BrowserRouter>
     );

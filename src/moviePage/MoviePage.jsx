@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { getFilms, searchFilms } from "../services/api";
+import { Link } from 'react-router-dom';
+import { searchFilms, searchFilmByName } from "../services/api";
 
 class MoviePage extends Component {
   state = {
@@ -9,7 +10,10 @@ class MoviePage extends Component {
   };
 
   componentDidMount() {
-    const search = new URLSearchParams(this.props.search).get("trending");
+    console.log(this.props);
+    const search = new URLSearchParams(this.props.location.search).get(
+      "trending"
+    );
 
     console.log(searchFilms());
 
@@ -28,9 +32,19 @@ class MoviePage extends Component {
   };
 
   getFilmByName = (inputValue) => {
-    const { history } = this.props;
-    searchFilms(inputValue).then((data) => {
+    const { history, location } = this.props;
+    searchFilmByName(inputValue).then((data) => {
       console.log(data);
+      const listFilms = data.results.map((film) => {
+        const title = film.title.split(" ").join("+");
+        return { ...film, titleSearch: title };
+      });
+
+      this.setState({ listFilms });
+      history.push({
+        ...location,
+        search: `searchQuery=${inputValue}`,
+      });
     });
   };
 
@@ -38,16 +52,29 @@ class MoviePage extends Component {
     const { listFilms, inputValue } = this.state;
     return (
       <>
-        <form onSubmit={this.handleSubmit}>
+        <form style={{ marginLeft: "40px" }} onSubmit={this.handleSubmit}>
           <input
+            style={{ height: "30px", marginRight: "10px" }}
             type="text"
-            name="trending"
+            name="name"
             placeholder="enter name of film"
             value={inputValue}
             onChange={this.handleChange}
           />
-          <button type="submit">Find</button>
+          <button style={{ height: "36px", width: "60px" }} type="submit">
+            Find
+          </button>
         </form>
+
+        {listFilms && (
+          <ul>
+            {listFilms.map(({ title, id }) => (
+              <li key={id}>
+                <Link to={`${title}`}>{title}</Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </>
     );
   }
