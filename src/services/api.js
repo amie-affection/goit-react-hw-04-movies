@@ -17,9 +17,9 @@ export const searchFilmByName = async (searchQuery) => {
   return result.data;
 };
 
-// export const getFilms = async (title) => {
-//   const result = await axios.get(
-//     `/movies/get-movie-reviews/?api_key=${apiKey}`
-//   );
-//   return result.data;
-// };
+export const getInfoAboutFilm = async (id) => {
+  const result = await axios.get(
+    `/movie/${id}/?api_key=${apiKey}&append_to_response=videos`
+  );
+  return result.data;
+};

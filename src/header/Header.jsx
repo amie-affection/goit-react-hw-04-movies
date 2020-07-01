@@ -1,7 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import HomePage from "../homePage/HomePage";
-import MoviePage from "../moviePage/MoviePage";
 
 const Header = () => {
   return (
@@ -11,6 +9,7 @@ const Header = () => {
           style={{
             display: "Flex",
             listStyle: "none",
+            marginBottom: "0px",
           }}
         >
           <li>

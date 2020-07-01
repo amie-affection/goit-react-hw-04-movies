@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { searchFilms, searchFilmByName } from "../services/api";
 
 class MoviePage extends Component {
@@ -54,7 +54,11 @@ class MoviePage extends Component {
       <>
         <form style={{ marginLeft: "40px" }} onSubmit={this.handleSubmit}>
           <input
-            style={{ height: "30px", marginRight: "10px" }}
+            style={{
+              height: "30px",
+              marginRight: "10px",
+              paddingLeft: "10px",
+            }}
             type="text"
             name="name"
             placeholder="enter name of film"
