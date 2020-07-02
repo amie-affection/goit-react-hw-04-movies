@@ -1,32 +1,71 @@
 import React, { Component } from "react";
-import { getInfoAboutFilm } from "../services/api";
+import { Switch, Route } from "react-router-dom";
+import { getInfoAboutFilm, getActors, getReviews } from "../services/api";
+import AdditionalInformation from "../additionalInformation/AdditionalInformation";
+import Reviews from "../reviews/Reviews";
+import Cast from "../cast/Cast";
 
 class MovieDetailsPage extends Component {
   state = {
+    id: "",
     poster: "",
-    info: "",
+    title: "",
+    userscore: "",
+    overview: "",
+    genresList: [],
     error: null,
   };
 
   componentDidMount() {
     // console.log(this.props.match.params);
-    const { info } = this.props.match.params;
+    const { movieId } = this.props.match.params;
+    // console.log(movieId);
 
-    getInfoAboutFilm(info)
+    getInfoAboutFilm(movieId)
       .then((data) => {
-        //   console.log(data)
-        this.setState({ poster: data.results.poster_path, info: data.results.title });
+        // console.log(data);
+        this.setState({
+          poster: `https://image.tmdb.org/t/p/w200/${data.poster_path}`,
+          title: data.title,
+          userscore: data.vote_average * 10,
+          overview: data.overview,
+          genresList: data.genres,
+          id: data.id,
+        });
       })
       .catch((error) => this.setState({ error }));
   }
 
   render() {
-    const { poster, info } = this.state;
+    const { poster, title, userscore, overview, genresList, id } = this.state;
 
     return (
       <>
-            <p>{poster}</p>
-            <p>{info}</p>
+        <button style={{ marginBottom: "20px" }}>Go back</button>
+        <div style={{ display: "flex" }}>
+          <div style={{ marginRight: "30px" }}>
+            <img src={poster} />
+          </div>
+
+          <div>
+            <h2 style={{marginTop: '0px'}}>{title}</h2>
+            <p>User Score: {userscore}%</p>
+            <h2>Overview</h2>
+            <p>{overview}</p>
+            <ul style={{ listStyle: "none", padding: "0px" }}>
+              <h2 style={{ marginBottom: "4px" }}>Genres</h2>
+              {genresList.map((genre) => (
+                <li key={genre.id}>{genre.name}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <AdditionalInformation id={id} />
+        <Switch>
+          <Route path="/movies/:movieId/cast" component={Cast} />
+          <Route path="/movies/:movieId/reviews" component={Reviews} />
+        </Switch>
       </>
     );
   }

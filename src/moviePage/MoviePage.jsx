@@ -10,12 +10,12 @@ class MoviePage extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
+    // console.log(this.props);
     const search = new URLSearchParams(this.props.location.search).get(
       "trending"
     );
 
-    console.log(searchFilms());
+    // console.log(searchFilms());
 
     if (search) {
       this.getFilmByName(search);
@@ -34,7 +34,7 @@ class MoviePage extends Component {
   getFilmByName = (inputValue) => {
     const { history, location } = this.props;
     searchFilmByName(inputValue).then((data) => {
-      console.log(data);
+      // console.log(data);
       const listFilms = data.results.map((film) => {
         const title = film.title.split(" ").join("+");
         return { ...film, titleSearch: title };
@@ -43,7 +43,7 @@ class MoviePage extends Component {
       this.setState({ listFilms });
       history.push({
         ...location,
-        search: `searchQuery=${inputValue}`,
+        search: `query=${inputValue}`,
       });
     });
   };
@@ -74,7 +74,7 @@ class MoviePage extends Component {
           <ul>
             {listFilms.map(({ title, id }) => (
               <li key={id}>
-                <Link to={`${title}`}>{title}</Link>
+                <Link to={`/movies/${id}`}>{title}</Link>
               </li>
             ))}
           </ul>
