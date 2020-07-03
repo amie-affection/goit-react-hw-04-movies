@@ -20,7 +20,14 @@ class Reviews extends Component {
       <>
         {reviews.length > 0 ? (
           <>
-            <p>{reviews}</p>
+            <ul>
+              {reviews.map((review) => (
+                <li key={review.id}>
+                  <h3>{review.author}</h3>
+                  <p>{review.content}</p>
+                </li>
+              ))}
+            </ul>
           </>
         ) : (
           <p>We don't have any reviews for this movie</p>
