@@ -36,19 +36,39 @@ class MovieDetailsPage extends Component {
       .catch((error) => this.setState({ error }));
   }
 
+  handleGoBack = () => {
+    console.log("back!");
+    console.log(this.props.location);
+
+    const { state } = this.props.location;
+
+    if (state && state.from) {
+      console.log(this.props.location.state.from);
+
+      return this.props.history.push(state.from);
+    }
+    this.props.history.push("/");
+  };
+
   render() {
     const { poster, title, userscore, overview, genresList, id } = this.state;
 
     return (
       <>
-        <button style={{ marginBottom: "20px" }}>Go back</button>
+        <button
+          style={{ marginBottom: "20px" }}
+          type="button"
+          onClick={this.handleGoBack}
+        >
+          Go back
+        </button>
         <div style={{ display: "flex" }}>
           <div style={{ marginRight: "30px" }}>
             <img src={poster} />
           </div>
 
           <div>
-            <h2 style={{marginTop: '0px'}}>{title}</h2>
+            <h2 style={{ marginTop: "0px" }}>{title}</h2>
             <p>User Score: {userscore}%</p>
             <h2>Overview</h2>
             <p>{overview}</p>

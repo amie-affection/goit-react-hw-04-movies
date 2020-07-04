@@ -4,7 +4,7 @@ import { searchFilms, searchFilmByName } from "../services/api";
 
 class MoviePage extends Component {
   state = {
-    listFilms: null,
+    listFilms: [],
     inputValue: "",
     error: null,
   };
@@ -70,14 +70,23 @@ class MoviePage extends Component {
           </button>
         </form>
 
-        {listFilms && (
+        {listFilms.length > 0 ? (
           <ul>
             {listFilms.map(({ title, id }) => (
               <li key={id}>
-                <Link to={`/movies/${id}`}>{title}</Link>
+                <Link
+                  to={{
+                    pathname: `/movies/${id}`,
+                    state: { from: this.props.location },
+                  }}
+                >
+                  {title}
+                </Link>
               </li>
             ))}
           </ul>
+        ) : (
+          <h3 style={{marginLeft: '48px'}}>Not found!</h3>
         )}
       </>
     );
