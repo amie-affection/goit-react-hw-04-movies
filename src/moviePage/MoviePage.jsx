@@ -7,13 +7,12 @@ class MoviePage extends Component {
     listFilms: [],
     inputValue: "",
     error: null,
+    isFined: false,
   };
 
   componentDidMount() {
     // console.log(this.props);
-    const search = new URLSearchParams(this.props.location.search).get(
-      "trending"
-    );
+    const search = new URLSearchParams(this.props.location.search).get("query");
 
     // console.log(searchFilms());
 
@@ -33,23 +32,28 @@ class MoviePage extends Component {
 
   getFilmByName = (inputValue) => {
     const { history, location } = this.props;
-    searchFilmByName(inputValue).then((data) => {
-      // console.log(data);
-      const listFilms = data.results.map((film) => {
-        const title = film.title.split(" ").join("+");
-        return { ...film, titleSearch: title };
-      });
+    searchFilmByName(inputValue)
+      .then((data) => {
+        console.log(data);
+        const listFilms = data.results.map((film) => {
+          const title = film.title.split(" ").join("+");
+          return { ...film, titleSearch: title };
+        });
 
-      this.setState({ listFilms });
-      history.push({
-        ...location,
-        search: `query=${inputValue}`,
-      });
-    });
+        this.setState({
+          listFilms,
+          isFined: data.total_results ? false : true,
+        });
+        history.push({
+          ...location,
+          search: `query=${inputValue}`,
+        });
+      })
+      .catch((error) => console.log("Error!"));
   };
 
   render() {
-    const { listFilms, inputValue } = this.state;
+    const { listFilms, inputValue, isFined } = this.state;
     return (
       <>
         <form style={{ marginLeft: "40px" }} onSubmit={this.handleSubmit}>
@@ -70,24 +74,21 @@ class MoviePage extends Component {
           </button>
         </form>
 
-        {listFilms.length > 0 ? (
-          <ul>
-            {listFilms.map(({ title, id }) => (
-              <li key={id}>
-                <Link
-                  to={{
-                    pathname: `/movies/${id}`,
-                    state: { from: this.props.location },
-                  }}
-                >
-                  {title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <h3 style={{marginLeft: '48px'}}>Not found!</h3>
-        )}
+        <ul>
+          {listFilms.map(({ title, id }) => (
+            <li key={id}>
+              <Link
+                to={{
+                  pathname: `/movies/${id}`,
+                  state: { from: this.props.location },
+                }}
+              >
+                {title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        {isFined && <h3 style={{ marginLeft: "48px" }}>Not found!</h3>}
       </>
     );
   }

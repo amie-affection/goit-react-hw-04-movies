@@ -52,6 +52,7 @@ class MovieDetailsPage extends Component {
 
   render() {
     const { poster, title, userscore, overview, genresList, id } = this.state;
+    console.log(this.props);
 
     return (
       <>

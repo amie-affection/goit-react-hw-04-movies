@@ -25,11 +25,11 @@ class Cast extends Component {
 
   render() {
     const { actorsList, photos } = this.state;
+    console.log(this.props)
     return (
       <ul>
         {actorsList.map((actor) => (
           <li key={actor.id}>
-            {/* {console.log(actor)} */}
             <img src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`} alt='photo' style={{width: 100}} />
             <p>{actor.name}</p>
           </li>

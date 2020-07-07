@@ -1,17 +1,31 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 
-const AdditionalInformation = ({ id }) => {
+const AdditionalInformation = ({ id, location }) => {
   return (
     <div>
       <nav>
         <ul style={{ paddingLeft: "0px" }}>
           <h4 style={{ marginBottom: "6px" }}>Additional Information</h4>
           <li style={{ marginBottom: "5px" }}>
-            <NavLink to={`/movies/${id}/cast`}>Cast</NavLink>
+            <NavLink
+              to={{
+                pathname: `/movies/${id}/cast`,
+                state: location.state,
+              }}
+            >
+              Cast
+            </NavLink>
           </li>
           <li>
-            <NavLink to={`/movies/${id}/reviews`}>Reviews</NavLink>
+            <NavLink
+              to={{
+                pathname: `/movies/${id}/reviews`,
+                state: location.state,
+              }}
+            >
+              Reviews
+            </NavLink>
           </li>
         </ul>
       </nav>
@@ -19,4 +33,4 @@ const AdditionalInformation = ({ id }) => {
   );
 };
 
-export default AdditionalInformation;
+export default withRouter(AdditionalInformation);
